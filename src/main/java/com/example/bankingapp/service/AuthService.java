@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class AuthService {
         String token = jwtUtils.generateToken(authentication);
         return new TokenResponse(token, "");
     }
-    public void signup(SignUpRequest signUpRequest) {
+    public TokenResponse signup(SignUpRequest signUpRequest) {
         if (userService.existsByUsername(signUpRequest.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
@@ -39,5 +40,9 @@ public class AuthService {
         user.setEmail(signUpRequest.getEmail());
         user.setRole(signUpRequest.getRole());
         userService.save(user);
+        return login(new LoginRequest(user.getUsername(), user.getPassword()));
+    }
+    public boolean isTokenValid(String token){
+        return jwtUtils.isTokenValid(token) && !jwtUtils.isTokenExpired(token);
     }
 }

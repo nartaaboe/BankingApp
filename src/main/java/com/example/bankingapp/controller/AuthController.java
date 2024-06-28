@@ -4,6 +4,7 @@ import com.example.bankingapp.dto.LoginRequest;
 import com.example.bankingapp.dto.SignUpRequest;
 import com.example.bankingapp.dto.TokenResponse;
 import com.example.bankingapp.service.AuthService;
+import org.antlr.v4.runtime.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,11 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(loginRequest));
     }
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody SignUpRequest signUpRequest){
-        authService.signup(signUpRequest);
-        return ResponseEntity.ok("registered.");
+    public ResponseEntity<TokenResponse> signup(@RequestBody SignUpRequest signUpRequest){
+        return ResponseEntity.ok(authService.signup(signUpRequest));
+    }
+    @PostMapping("/validate")
+    public Boolean isTokenValid(@RequestBody String token){
+        return authService.isTokenValid(token);
     }
 }
