@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @Validated
 public class AuthController {
-    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     @Autowired
     private AuthService authService;
     @PostMapping("/login")
@@ -27,9 +26,6 @@ public class AuthController {
     }
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody SignUpRequest signUpRequest){
-        logger.debug("Auth controller");
-        logger.info("Auth controller");
-        logger.error("Auth controller");
         authService.signup(signUpRequest);
         return ResponseEntity.ok("registered.");
     }
