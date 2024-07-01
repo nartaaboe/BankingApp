@@ -34,4 +34,7 @@ public class UserService implements UserDetailsService {
     public List<User> getUsers(){
         return userRepository.findAll();
     }
+    public User getUserById(String id){
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }

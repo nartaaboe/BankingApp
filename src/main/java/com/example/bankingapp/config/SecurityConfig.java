@@ -55,6 +55,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/users/**").permitAll()
+                        .requestMatchers("/accounts/**").permitAll()
                         .requestMatchers("/home/**").hasAnyAuthority("SCOPE_USER", "SCOPE_ADMIN");
                     auth.anyRequest().authenticated();
                 })

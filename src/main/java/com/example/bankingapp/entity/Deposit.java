@@ -15,9 +15,8 @@ public class Deposit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private Account account;
+    @Column(name = "user_id")
+    private String userId;
     private Double amount;
     private LocalDateTime startDate;
     private LocalDateTime endDate;

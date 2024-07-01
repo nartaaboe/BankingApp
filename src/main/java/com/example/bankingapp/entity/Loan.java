@@ -17,14 +17,12 @@ public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "user_id")
+    private String userId;
     private Double amount;
     private Double interestRate;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private Account account;
     @JsonIgnore
     @OneToOne(mappedBy = "loan", cascade = CascadeType.ALL)
     private Payment payment;

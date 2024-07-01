@@ -3,6 +3,7 @@ package com.example.bankingapp.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,6 +23,7 @@ public class User implements UserDetails {
     private String username;
     private String email;
     private String password;
+    private String phoneNumber;
     private String role;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
