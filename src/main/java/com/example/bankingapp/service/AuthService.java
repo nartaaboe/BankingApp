@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.Transient;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class AuthService {
     @Autowired
     private JwtUtils jwtUtils;
@@ -39,8 +42,9 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setEmail(signUpRequest.getEmail());
         user.setRole(signUpRequest.getRole());
+        user.setPhoneNumber(signUpRequest.getPhoneNumber());
         userService.save(user);
-        return login(new LoginRequest(user.getUsername(), user.getPassword()));
+        return login(new LoginRequest(signUpRequest.getUsername(), signUpRequest.getPassword()));
     }
     public boolean isTokenValid(String token){
         return jwtUtils.isTokenValid(token) && !jwtUtils.isTokenExpired(token);
