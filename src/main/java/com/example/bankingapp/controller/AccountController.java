@@ -1,5 +1,7 @@
 package com.example.bankingapp.controller;
 
+import com.example.bankingapp.dto.TransferBetweenAccountsRequest;
+import com.example.bankingapp.dto.TransferByAccountNumberRequest;
 import com.example.bankingapp.dto.TransferByPhoneRequest;
 import com.example.bankingapp.entity.Account;
 import com.example.bankingapp.entity.Transaction;
@@ -32,6 +34,7 @@ public class AccountController {
         accountService.deleteAccount(account); // there is mistake
         return ResponseEntity.ok("Account deleted.");
     }
+    // for testing but its not needed in real project
     @PutMapping("/{id}")
     public ResponseEntity<String> fillBalance(@PathVariable Long id, @RequestBody Double amount){
         accountService.fillBalance(id, amount);
@@ -40,10 +43,5 @@ public class AccountController {
     @GetMapping("/get/{id}/transactions")
     public ResponseEntity<List<Transaction>> getTransactions(@PathVariable Long id){
         return ResponseEntity.ok(accountService.getTransactions(id));
-    }
-    @PostMapping("/transfer/byPhoneNumber")
-    public ResponseEntity<String> transferByPhoneNumber(@RequestBody TransferByPhoneRequest request) {
-        accountService.transferBalanceByPhoneNumber(request);
-        return ResponseEntity.ok("Transfer successful by phone number.");
     }
 }

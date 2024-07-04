@@ -1,5 +1,7 @@
 package com.example.bankingapp.service;
 
+import com.example.bankingapp.dto.TransferBetweenAccountsRequest;
+import com.example.bankingapp.dto.TransferByAccountNumberRequest;
 import com.example.bankingapp.dto.TransferByPhoneRequest;
 import com.example.bankingapp.entity.Account;
 import com.example.bankingapp.entity.Transaction;
@@ -25,6 +27,9 @@ public class AccountService {
     }
     public Account findAccountById(Long id) {
         return accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Account not found."));
+    }
+    public Account findAccountByAccountNumber(String accountNumber){
+        return accountRepository.findByAccountNumber(accountNumber).orElseThrow(() -> new RuntimeException("Account not found."));
     }
     public void generateAccount(String userId) {
         Account account = new Account();
@@ -52,14 +57,21 @@ public class AccountService {
         account.getTransactions().add(transaction);
         accountRepository.save(account);
     }
-    public void transferBalanceByAccountNumber(Long id, String accountNumber, Double balance){
-        Account sender = findAccountById(id);
-        Account receiver = accountRepository.findByAccountNumber(accountNumber).orElseThrow(() -> new RuntimeException("Account not found."));
-        sender.setBalance(sender.getBalance() - balance);
-        receiver.setBalance(receiver.getBalance() + balance);
+    public void transferBalanceByAccountNumber(TransferByAccountNumberRequest request){
+        Account account = findAccountById(request.getId());
+        Account receiver = findAccountByAccountNumber(request.getAccountNumber());
+        Double amount = request.getAmount();
+        account.setBalance(account.getBalance() - amount);
+        receiver.setBalance(receiver.getBalance() + amount);
         Transaction transaction = new Transaction();
-        accountRepository.save(sender);
-        accountRepository.save(receiver);
+        transaction.setTransactionType("ACCOUNT_NUMBER");
+        transaction.setAmount(amount);
+        transaction.setAccount(account);
+        account.getTransactions().add(transaction);
+        accountRepository.save(account);
+    }
+    public String transferBalanceBetweenAccounts(TransferBetweenAccountsRequest request){
+        return "";
     }
     public List<Transaction> getTransactions(Long id){
         return findAccountById(id).getTransactions();
