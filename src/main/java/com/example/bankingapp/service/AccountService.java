@@ -1,11 +1,14 @@
 package com.example.bankingapp.service;
 
+import com.example.bankingapp.dto.Pair;
 import com.example.bankingapp.dto.TransferBetweenAccountsRequest;
 import com.example.bankingapp.dto.TransferByAccountNumberRequest;
 import com.example.bankingapp.dto.TransferByPhoneRequest;
 import com.example.bankingapp.entity.Account;
+import com.example.bankingapp.entity.Deposit;
 import com.example.bankingapp.entity.Transaction;
 import com.example.bankingapp.repository.AccountRepository;
+import com.example.bankingapp.repository.DepositRepository;
 import com.example.bankingapp.repository.TransactionRepository;
 import com.example.bankingapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,8 @@ public class AccountService {
     private AccountRepository accountRepository;
     @Autowired
     private TransactionRepository transactionRepository;
+    @Autowired
+    private DepositRepository depositRepository;
     @Autowired
     private UserRepository userRepository;
     public List<Account> findAccountsByUserId(String userId) {
@@ -69,9 +74,6 @@ public class AccountService {
         transaction.setAccount(account);
         account.getTransactions().add(transaction);
         accountRepository.save(account);
-    }
-    public String transferBalanceBetweenAccounts(TransferBetweenAccountsRequest request){
-        return "";
     }
     public List<Transaction> getTransactions(Long id){
         return findAccountById(id).getTransactions();

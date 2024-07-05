@@ -56,6 +56,8 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/users/**").permitAll()
                         .requestMatchers("/accounts/**").permitAll()
+                        .requestMatchers("/deposit/**").permitAll()
+                        .requestMatchers("/transfer/**").permitAll()
                         .requestMatchers("/home/**").hasAnyAuthority("SCOPE_USER", "SCOPE_ADMIN");
                     auth.anyRequest().authenticated();
                 })

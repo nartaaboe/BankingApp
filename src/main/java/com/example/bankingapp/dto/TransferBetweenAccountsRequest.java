@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class TransferBetweenAccountsRequest {
-    private Long senderId;
-    private Long receiverId;
+    private Pair sender;
+    private Pair receiver;
     private Double amount;
 }

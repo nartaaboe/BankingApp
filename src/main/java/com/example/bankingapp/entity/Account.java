@@ -2,6 +2,8 @@ package com.example.bankingapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.security.SecureRandom;
@@ -23,6 +25,8 @@ public class Account {
     private Integer cvv;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    @NotNull
+    @Min(value = 0)
     private Double balance;
     @JsonIgnore
     @Column(name = "user_id")

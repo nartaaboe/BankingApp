@@ -16,18 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransferController {
     @Autowired
     private AccountService accountService;
-    @PostMapping("/transfer/byPhoneNumber")
+    @PostMapping("/byPhoneNumber")
     public ResponseEntity<String> transferByPhoneNumber(@RequestBody TransferByPhoneRequest request) {
         accountService.transferBalanceByPhoneNumber(request);
         return ResponseEntity.ok("Transfer successful by phone number.");
     }
-    @PostMapping("/transfer/byAccountNumber")
+    @PostMapping("/byAccountNumber")
     public ResponseEntity<String> transferByAccountNumber(@RequestBody TransferByAccountNumberRequest request){
         accountService.transferBalanceByAccountNumber(request);
         return ResponseEntity.ok("Transfer successful by account number.");
-    }
-    @PostMapping("/transfer/betweenAccounts")
-    public ResponseEntity<String> transferBetweenAccounts(@RequestBody TransferBetweenAccountsRequest request){
-        return ResponseEntity.ok(accountService.transferBalanceBetweenAccounts(request));
     }
 }
