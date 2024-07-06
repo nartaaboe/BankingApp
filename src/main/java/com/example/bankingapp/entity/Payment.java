@@ -23,4 +23,8 @@ public class Payment {
     @OneToOne
     @JoinColumn(name = "loan_id", referencedColumnName = "id")
     private Loan loan;
+    @PrePersist
+    public void onCreate(){
+        paymentDate = LocalDateTime.now();
+    }
 }

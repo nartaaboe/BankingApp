@@ -4,12 +4,15 @@ import com.example.bankingapp.dto.LoanCreationDto;
 import com.example.bankingapp.dto.LoanPaymentDto;
 import com.example.bankingapp.entity.Account;
 import com.example.bankingapp.entity.Loan;
+import com.example.bankingapp.entity.Payment;
 import com.example.bankingapp.repository.AccountRepository;
 import com.example.bankingapp.repository.LoanRepository;
+import com.example.bankingapp.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,6 +24,8 @@ public class LoansService {
     private LoanRepository loanRepository;
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private PaymentRepository paymentRepository;
     public List<Loan> getLoans(){
         return loanRepository.findAll();
     }
@@ -50,23 +55,23 @@ public class LoansService {
         Loan loan = getLoanById(id);
         Account account = accountRepository.findById(loanDto.getId()).orElseThrow(() -> new RuntimeException("Account not found."));
         Double amount = loanDto.getAmount();
+        Payment payment = new Payment();
+        payment.setAmount(amount);
+        payment.setLoan(loan);
         if(account.getBalance() >= amount){
             account.setBalance(account.getBalance() - amount);
-            if(loan.getAmount() < amount){
-                account.setBalance(account.getBalance() - loan.getAmount());
-                loanRepository.delete(loan);
-            }
-            else if(loan.getAmount() > amount){
-                account.setBalance(account.getBalance() - amount);
-                loan.setAmount(loan.getAmount() - amount);
+            if(loan.getCurrentAmount() <= amount){
+                account.setBalance(account.getBalance() - loan.getCurrentAmount());
+                loan.setCloseDate(LocalDateTime.now());
             }
             else{
-                loan
+                account.setBalance(account.getBalance() - amount);
+                loan.setCurrentAmount(loan.getCurrentAmount() - amount);
             }
         }
         else{
             throw new RuntimeException("Not enough balance.");
         }
-        loan.setAmount(loan.getAmount() - amount);
+        loanRepository.save(loan);
     }
 }

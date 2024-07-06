@@ -26,9 +26,11 @@ public class Loan {
     @Min(value = 20000)
     @Max(value = 7000000)
     private Double amount;
+    private Double currentAmount;
     private Double interestRate;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private LocalDateTime closeDate;
     @JsonIgnore
     @OneToOne(mappedBy = "loan", cascade = CascadeType.ALL)
     private Payment payment;
@@ -38,5 +40,9 @@ public class Loan {
             interestRate = 0.04;
         }
         startDate = LocalDateTime.now();
+    }
+    public void setAmount(@NotNull @Min(value = 20000) @Max(value = 7000000) Double amount) {
+        this.amount = amount;
+        this.currentAmount = amount;
     }
 }
