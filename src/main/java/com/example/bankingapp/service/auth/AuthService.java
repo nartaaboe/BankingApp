@@ -1,16 +1,15 @@
-package com.example.bankingapp.service;
+package com.example.bankingapp.service.auth;
 
 import com.example.bankingapp.dto.LoginRequest;
 import com.example.bankingapp.dto.SignUpRequest;
 import com.example.bankingapp.dto.TokenResponse;
 import com.example.bankingapp.entity.User;
+import com.example.bankingapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.Transient;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

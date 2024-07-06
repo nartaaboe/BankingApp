@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -32,8 +33,8 @@ public class Loan {
     private LocalDateTime endDate;
     private LocalDateTime closeDate;
     @JsonIgnore
-    @OneToOne(mappedBy = "loan", cascade = CascadeType.ALL)
-    private Payment payment;
+    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
+    private List<Payment> payment;
     @PrePersist
     public void onCreate(){
         if (interestRate == null) {

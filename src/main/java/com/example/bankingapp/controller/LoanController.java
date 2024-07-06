@@ -3,6 +3,7 @@ package com.example.bankingapp.controller;
 import com.example.bankingapp.dto.LoanCreationDto;
 import com.example.bankingapp.dto.LoanPaymentDto;
 import com.example.bankingapp.entity.Loan;
+import com.example.bankingapp.entity.Payment;
 import com.example.bankingapp.service.LoansService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,5 +33,9 @@ public class LoanController {
     public ResponseEntity<String> payLoan(@PathVariable Long id, @RequestBody LoanPaymentDto loanPaymentDto){
         loansService.payLoan(id, loanPaymentDto);
         return ResponseEntity.ok("Successfully paid.");
+    }
+    @GetMapping("/{id}/payments")
+    public ResponseEntity<List<Payment>> getLoanPayments(@PathVariable Long id){
+        return ResponseEntity.ok(loansService.getLoanPayments(id));
     }
 }

@@ -2,6 +2,7 @@ package com.example.bankingapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class Payment {
     private Double amount;
     private LocalDateTime paymentDate;
     @JsonIgnore
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "loan_id", referencedColumnName = "id")
     private Loan loan;
     @PrePersist

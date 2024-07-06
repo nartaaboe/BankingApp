@@ -74,4 +74,8 @@ public class LoansService {
         }
         loanRepository.save(loan);
     }
+    public List<Payment> getLoanPayments(Long id){
+        Loan loan = getLoanById(id);
+        return loan.getPayment();
+    }
 }
