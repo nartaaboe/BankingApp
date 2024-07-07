@@ -40,7 +40,8 @@ public class LoansService {
             account.setBalance(account.getBalance() + loanDto.getAmount());
             break;
         }
-        loan.setAmount(loanDto.getAmount());
+        loan.setStartDate(LocalDateTime.now());
+        loan.setAmount(loanDto.getAmount() * 1.04);
         Pattern pattern = Pattern.compile("(\\d+)(months?)");
         Matcher matcher = pattern.matcher(loanDto.getTerm().toLowerCase());
         if (matcher.matches()) {
@@ -59,14 +60,14 @@ public class LoansService {
         payment.setAmount(amount);
         payment.setLoan(loan);
         if(account.getBalance() >= amount){
-            account.setBalance(account.getBalance() - amount);
-            if(loan.getCurrentAmount() <= amount){
-                account.setBalance(account.getBalance() - loan.getCurrentAmount());
-                loan.setCloseDate(LocalDateTime.now());
+            if(loan.getCurrentAmount() > amount){
+                loan.setCurrentAmount(loan.getCurrentAmount() - amount);
+                account.setBalance(account.getBalance() - amount);
             }
             else{
-                account.setBalance(account.getBalance() - amount);
-                loan.setCurrentAmount(loan.getCurrentAmount() - amount);
+                account.setBalance(account.getBalance() - loan.getCurrentAmount());
+                loan.setCurrentAmount(0.0);
+                loan.setCloseDate(LocalDateTime.now());
             }
         }
         else{
